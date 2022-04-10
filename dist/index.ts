@@ -24,25 +24,8 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.get("/solana/accounts", async (req: Request, res: Response) => {
-  // console.log("solanaWeb3: ", solanaWeb3);
-  let establishConnection = solanaWeb3.Connection;
-
-  let newSolanaConnection = new establishConnection(
-    "https://api.devnet.solana.com"
-  );
-  // console.log(
-  //   "newSolanaConnection: ",
-  //   newSolanaConnection.rpcEndpoint
-  // );
-
-  console.log("newSolanaConnection: ", newSolanaConnection);
-
-  try {
-    let test = await newSolanaConnection.getLargestAccounts();
-    console.log("test: ", test);
-  } catch (e) {
-    console.log("Error: ", e);
-  }
+  let largestAccounts = await getLargestSolanaAccounts();
+  res.send(largestAccounts);
 });
 
 app.listen(port, () => {
