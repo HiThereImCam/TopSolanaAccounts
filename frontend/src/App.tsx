@@ -2,6 +2,8 @@ import React, { useEffect, useState, useReducer } from "react";
 import "./App.css";
 
 import { getSolanaAccounts, AccountInfo } from "./util/getSolanaAccounts";
+import DisplayAccounts from "./components/display_accounts";
+import mockSolanaAccounts from "./tests/mock_solana_accounts";
 
 type reducerState = {
   loading: boolean;
@@ -9,7 +11,9 @@ type reducerState = {
 };
 
 function App() {
-  const [accountData, setAccountData] = useState<Array<AccountInfo>>([]);
+  const [largestSolanaAccounts, setLargestSolanaAccounts] = useState<
+    Array<AccountInfo>
+  >([]);
   const [state, setState] = useReducer(
     (state: reducerState, newState: reducerState) => ({
       ...state,
@@ -19,12 +23,13 @@ function App() {
   );
 
   let getAccounts = async () => {
-    let solanaAccountsString: any = await fetch(
-      "http://localhost:8080/solana/accounts"
-    );
-    let solanaAccounts = await solanaAccountsString.json();
+    // let solanaAccountsRes: any = await fetch(
+    //   "http://localhost:8080/solana/accounts"
+    // );
+    // let solanaAccounts = await solanaAccountsRes.json();
+    let solanaAccounts: any = mockSolanaAccounts();
     if (solanaAccounts) {
-      setAccountData(solanaAccounts);
+      setLargestSolanaAccounts(solanaAccounts);
       setState({ loading: false, error: "" });
     }
   };
@@ -33,17 +38,32 @@ function App() {
     getAccounts();
   }, []);
 
-  // let { loading, error } = state;
+  let { loading, error } = state;
 
   return (
     <div className="App">
-      {!!accountData && accountData.length > 0 ? (
-        <div>
-          <pre>{JSON.stringify(accountData, null, 2)}</pre>
-        </div>
-      ) : null}
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error...</div>
+      ) : (
+        <DisplayAccounts solanaAccounts={largestSolanaAccounts} />
+      )}
     </div>
   );
 }
 
 export default App;
+
+/**
+
+ {!!largestSolanaAccounts && accountData.length > 0 ? (
+        <div>
+          <pre>{JSON.stringify(accountData, null, 2)}</pre>
+        </div>
+      ) : null}
+
+
+
+
+ */
