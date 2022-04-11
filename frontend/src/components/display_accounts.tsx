@@ -1,16 +1,10 @@
-import { useState } from "react";
 import useToggle from "../hooks/useToggle";
 import { AccountInfo } from "../util/getSolanaAccounts";
 import convertLamports from "../util/convertLamports";
 
 const DisplayAccounts = (props: { solanaAccounts: AccountInfo[] }) => {
   const { solanaAccounts } = props;
-  // const [displayUSD, setDisplayUSD] = useState(false);
   const [displayUSD, toggleDisplayUSD] = useToggle();
-
-  // let toggleUSD = () => {
-  //   setDisplayUSD(!displayUSD);
-  // };
 
   return (
     <div>
