@@ -13,13 +13,17 @@ const DisplayAccounts = (props: {
   return (
     <div className="table-container">
       <table className="table">
-        <tbody>
+        <tbody className="table-body">
           <tr>
             <th>Public Address Information</th>
             {!displayUSD ? (
-              <th onClick={toggleDisplayUSD}>SOL</th>
+              <th className="header-currency" onClick={toggleDisplayUSD}>
+                SOL
+              </th>
             ) : (
-              <th onClick={toggleDisplayUSD}>USD</th>
+              <th className="header-currency" onClick={toggleDisplayUSD}>
+                USD
+              </th>
             )}
           </tr>
           {solanaAccounts.map((account) => (

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, Fragment } from "react";
 import "./App.css";
 
 import { getSolanaAccounts, AccountInfo } from "./util/getSolanaAccounts";
 import { getConvertToUSD } from "./util/getConvertToUSD";
 import DisplayAccounts from "./components/DisplayAccounts/display_accounts";
+import Header from "./components/Header/header";
 
 type reducerState = {
   loading: boolean;
@@ -48,10 +49,13 @@ function App() {
       ) : error ? (
         <div>Error...</div>
       ) : (
-        <DisplayAccounts
-          solanaAccounts={largestSolanaAccounts}
-          currPrice={currSolanaToUSD}
-        />
+        <Fragment>
+          <Header currPrice={currSolanaToUSD} />
+          <DisplayAccounts
+            solanaAccounts={largestSolanaAccounts}
+            currPrice={currSolanaToUSD}
+          />
+        </Fragment>
       )}
     </div>
   );

@@ -1,7 +1,10 @@
-.App {
-  min-height: 100vh;
+.header {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+}
+
+.unordered-list {
+  margin: 5px;
+  list-style: none;
 }

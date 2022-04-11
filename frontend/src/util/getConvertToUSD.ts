@@ -10,8 +10,8 @@ export const getConvertToUSD = async () => {
   let solanaToUSDRes = null;
   try {
     solanaToUSDRes = await fetch(`${REACT_APP_GET_SOLANA_PRICE_CONVERSION}`);
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    throw new Error(e);
   }
 
   if (solanaToUSDRes) {
