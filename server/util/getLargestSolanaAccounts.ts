@@ -5,6 +5,9 @@ dotenv.config();
 let solanaClusterRPCEndpoint: string = process.env
   .SOLANA_CLUSTER_RPC_ENDPOINT as string;
 
+// obj w/ data and lastRefreshed: timestamp
+const CACHED_VALUE = {};
+
 /**
  *
  * @returns array of solana accounts and lamport values
@@ -15,12 +18,8 @@ let solanaClusterRPCEndpoint: string = process.env
 const getLargestSolanaAccounts = async () => {
   let establishConnection = solanaWeb3.Connection;
   let newSolanaConnection = new establishConnection(solanaClusterRPCEndpoint);
-  let largestSolanaAccountsObj = null;
-  try {
-    largestSolanaAccountsObj = await newSolanaConnection.getLargestAccounts();
-  } catch (e: any) {
-    throw new Error(e);
-  }
+
+  let largestSolanaAccountsObj = await newSolanaConnection.getLargestAccounts();
 
   if (largestSolanaAccountsObj) {
     return largestSolanaAccountsObj.value;

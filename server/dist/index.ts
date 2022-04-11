@@ -13,12 +13,25 @@ const port = process.env.PORT;
 app.use(cors());
 
 app.get("/solana/accounts", async (req: Request, res: Response) => {
-  let largestAccounts = await getLargestSolanaAccounts();
+  let largestAccounts = null;
+  try {
+    largestAccounts = await getLargestSolanaAccounts();
+  } catch (e: any) {
+    console.error("error: ", e);
+    res.send(e.message);
+  }
   res.send(JSON.stringify(largestAccounts));
 });
 
 app.get("/solana/convert-to-usd", async (req: Request, res: Response) => {
-  let solanaPrice = await convertSolToUSD();
+  let solanaPrice = null;
+  try {
+    solanaPrice = await convertSolToUSD();
+  } catch (e: any) {
+    console.error("error: ", e);
+    res.send(e.message);
+  }
+
   res.send(JSON.stringify(solanaPrice));
 });
 

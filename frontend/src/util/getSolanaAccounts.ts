@@ -2,9 +2,6 @@
 const REACT_APP_GET_SOLANA_ACCOUNTS: string = process.env
   .REACT_APP_GET_SOLANA_ACCOUNTS as string;
 
-// obj w/ data and lastRefreshed: timestamp
-const CACHED_VALUE = {};
-
 export type AccountInfo = {
   address: object;
   lamports: number;
@@ -16,6 +13,6 @@ export const getSolanaAccounts = async () => {
     let solanaAccounts = await solanaAccountsRes.json();
     return solanaAccounts;
   } catch (e) {
-    throw Error();
+    return "Internal server error";
   }
 };

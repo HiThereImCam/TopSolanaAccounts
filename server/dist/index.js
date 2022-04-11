@@ -22,11 +22,25 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use((0, cors_1.default)());
 app.get("/solana/accounts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let largestAccounts = yield (0, getLargestSolanaAccounts_1.default)();
+    let largestAccounts = null;
+    try {
+        largestAccounts = yield (0, getLargestSolanaAccounts_1.default)();
+    }
+    catch (e) {
+        console.error("error: ", e);
+        res.send(e);
+    }
     res.send(JSON.stringify(largestAccounts));
 }));
 app.get("/solana/convert-to-usd", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let solanaPrice = yield (0, convertSolToUSD_1.convertSolToUSD)();
+    let solanaPrice = null;
+    try {
+        solanaPrice = yield (0, convertSolToUSD_1.convertSolToUSD)();
+    }
+    catch (e) {
+        console.error("error: ", e);
+        res.send(e);
+    }
     res.send(JSON.stringify(solanaPrice));
 }));
 app.listen(port, () => {

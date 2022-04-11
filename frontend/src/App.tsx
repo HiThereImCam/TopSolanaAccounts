@@ -28,11 +28,15 @@ function App() {
 
   let getSolanaData = async () => {
     let solanaAccounts: any = await getSolanaAccounts();
-    let solanaToUSDPrice = (await getConvertToUSD()) as number;
-    if (solanaAccounts && solanaToUSDPrice) {
+    let solanaToUSDPrice: any = await getConvertToUSD();
+    if (Array.isArray(solanaAccounts) && typeof solanaToUSDPrice !== "string") {
       setLargestSolanaAccounts(solanaAccounts);
       setCurrSolanaToUSD(solanaToUSDPrice);
       setState({ loading: false, error: "" });
+    } else if (!Array.isArray(solanaAccounts)) {
+      setState({ loading: false, error: solanaAccounts });
+    } else {
+      setState({ loading: false, error: solanaToUSDPrice });
     }
   };
 
@@ -47,7 +51,7 @@ function App() {
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
-        <div>Error...</div>
+        <div>{error}</div>
       ) : (
         <Fragment>
           <Header currPrice={currSolanaToUSD} />
