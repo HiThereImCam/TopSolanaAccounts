@@ -12,23 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+exports.convertSolToUSD = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
-const getLargestSolanaAccounts_1 = __importDefault(require("../util/getLargestSolanaAccounts"));
-const convertSolToUSD_1 = require("../util/convertSolToUSD");
+const node_fetch_1 = __importDefault(require("node-fetch"));
 dotenv_1.default.config();
-const app = (0, express_1.default)();
-const port = process.env.PORT;
-app.use((0, cors_1.default)());
-app.get("/solana/accounts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let largestAccounts = yield (0, getLargestSolanaAccounts_1.default)();
-    res.send(JSON.stringify(largestAccounts));
-}));
-app.get("/solana/convert-to-usd", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let solanaPrice = yield (0, convertSolToUSD_1.convertSolToUSD)();
-    res.send(JSON.stringify(solanaPrice));
-}));
-app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+const CMC_KEY = process.env.COINMARKETCAP_API_KEY;
+const convertSolToUSD = () => __awaiter(void 0, void 0, void 0, function* () {
+    let solanaPriceRes = yield (0, node_fetch_1.default)("https://pro-api.coinmarketcap.com/v2/tools/price-conversion?amount=1&id=5426", {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Cmc_pro_api_key": `${CMC_KEY}`,
+        },
+    });
+    let solanaPrice = yield solanaPriceRes.json();
+    return solanaPrice.data.quote.USD;
 });
+exports.convertSolToUSD = convertSolToUSD;
