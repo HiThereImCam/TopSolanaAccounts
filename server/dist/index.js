@@ -22,7 +22,9 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use((0, cors_1.default)());
 app.get("/solana/accounts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("hello");
     let largestAccounts = yield (0, getLargestSolanaAccounts_1.default)();
+    // console.dir(largestAccounts, { depth: null });
     res.send(JSON.stringify(largestAccounts));
 }));
 app.get("/solana/convert-to-usd", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

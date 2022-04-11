@@ -2,6 +2,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import "./App.css";
 
 import { getSolanaAccounts, AccountInfo } from "./util/getSolanaAccounts";
+import { getConvertToUSD } from "./util/getConvertToUSD";
 import DisplayAccounts from "./components/display_accounts";
 import mockSolanaAccounts from "./tests/mock_solana_accounts";
 
@@ -11,9 +12,6 @@ type reducerState = {
 };
 
 function App() {
-  const [largestSolanaAccounts, setLargestSolanaAccounts] = useState<
-    Array<AccountInfo>
-  >([]);
   const [state, setState] = useReducer(
     (state: reducerState, newState: reducerState) => ({
       ...state,
@@ -22,20 +20,24 @@ function App() {
     { loading: true, error: "" }
   );
 
-  let getAccounts = async () => {
-    // let solanaAccountsRes: any = await fetch(
-    //   "http://localhost:8080/solana/accounts"
-    // );
-    // let solanaAccounts = await solanaAccountsRes.json();
-    let solanaAccounts: any = mockSolanaAccounts();
-    if (solanaAccounts) {
+  const [largestSolanaAccounts, setLargestSolanaAccounts] = useState<
+    Array<AccountInfo>
+  >([]);
+
+  const [currSolanaToUSD, setCurrSolanaToUSD] = useState<number>(0);
+
+  let getSolanaData = async () => {
+    let solanaAccounts: any = await getSolanaAccounts();
+    let solanaToUSDPrice = (await getConvertToUSD()) as number;
+    if (solanaAccounts && solanaToUSDPrice) {
       setLargestSolanaAccounts(solanaAccounts);
+      setCurrSolanaToUSD(solanaToUSDPrice);
       setState({ loading: false, error: "" });
     }
   };
 
   useEffect(() => {
-    getAccounts();
+    getSolanaData();
   }, []);
 
   let { loading, error } = state;
@@ -47,7 +49,10 @@ function App() {
       ) : error ? (
         <div>Error...</div>
       ) : (
-        <DisplayAccounts solanaAccounts={largestSolanaAccounts} />
+        <DisplayAccounts
+          solanaAccounts={largestSolanaAccounts}
+          currPrice={currSolanaToUSD}
+        />
       )}
     </div>
   );

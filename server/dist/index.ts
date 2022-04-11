@@ -13,7 +13,10 @@ const port = process.env.PORT;
 app.use(cors());
 
 app.get("/solana/accounts", async (req: Request, res: Response) => {
+  console.log("hello");
   let largestAccounts = await getLargestSolanaAccounts();
+
+  // console.dir(largestAccounts, { depth: null });
   res.send(JSON.stringify(largestAccounts));
 });
 
