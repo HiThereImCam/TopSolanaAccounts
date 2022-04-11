@@ -18,8 +18,8 @@ const getLargestSolanaAccounts = async () => {
   let largestSolanaAccountsObj = null;
   try {
     largestSolanaAccountsObj = await newSolanaConnection.getLargestAccounts();
-  } catch (e) {
-    throw Error();
+  } catch (e: any) {
+    throw new Error(e);
   }
 
   if (largestSolanaAccountsObj) {

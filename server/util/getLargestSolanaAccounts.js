@@ -54,7 +54,7 @@ const getLargestSolanaAccounts = () => __awaiter(void 0, void 0, void 0, functio
         largestSolanaAccountsObj = yield newSolanaConnection.getLargestAccounts();
     }
     catch (e) {
-        throw Error();
+        throw new Error(e);
     }
     if (largestSolanaAccountsObj) {
         return largestSolanaAccountsObj.value;
