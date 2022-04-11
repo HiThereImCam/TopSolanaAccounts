@@ -1,6 +1,6 @@
 // import * as solanaWeb3 from "@solana/web3.js";
-const GET_SOLANA_ACCOUNTS_URL: string = process.env
-  .GET_SOLANA_ACCOUNTS_URL as string;
+const REACT_APP_GET_SOLANA_ACCOUNTS: string = process.env
+  .REACT_APP_GET_SOLANA_ACCOUNTS as string;
 
 // obj w/ data and lastRefreshed: timestamp
 const CACHED_VALUE = {};
@@ -12,10 +12,8 @@ export type AccountInfo = {
 
 export const getSolanaAccounts = async () => {
   try {
-    let solanaAccountsString = await fetch(
-      "http://localhost:8080/solana/accounts"
-    );
-    let solanaAccounts = await solanaAccountsString.json();
+    let solanaAccountsRes = await fetch(`${REACT_APP_GET_SOLANA_ACCOUNTS}`);
+    let solanaAccounts = await solanaAccountsRes.json();
     return solanaAccounts;
   } catch (e) {
     throw Error();

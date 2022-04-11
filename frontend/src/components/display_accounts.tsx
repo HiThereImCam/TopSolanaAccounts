@@ -2,8 +2,11 @@ import useToggle from "../hooks/useToggle";
 import { AccountInfo } from "../util/getSolanaAccounts";
 import convertLamports from "../util/convertLamports";
 
-const DisplayAccounts = (props: { solanaAccounts: AccountInfo[] }) => {
-  const { solanaAccounts } = props;
+const DisplayAccounts = (props: {
+  solanaAccounts: AccountInfo[];
+  currPrice: number;
+}) => {
+  const { solanaAccounts, currPrice } = props;
   const [displayUSD, toggleDisplayUSD] = useToggle();
 
   return (
@@ -11,7 +14,7 @@ const DisplayAccounts = (props: { solanaAccounts: AccountInfo[] }) => {
       <table>
         <tbody>
           <tr>
-            <th>Public Account Information</th>
+            <th>Public Address Information</th>
             {!displayUSD ? (
               <th onClick={toggleDisplayUSD}>SOL</th>
             ) : (
@@ -21,7 +24,9 @@ const DisplayAccounts = (props: { solanaAccounts: AccountInfo[] }) => {
           {solanaAccounts.map((account) => (
             <tr key={`${account.address}`}>
               <td>{account.address}</td>
-              <td>{convertLamports(account.lamports, displayUSD)}</td>
+              <td>
+                {convertLamports(account.lamports, displayUSD, currPrice)}
+              </td>
             </tr>
           ))}
         </tbody>
