@@ -5,10 +5,10 @@ const convertLamports = (lamports: number, displayUSD: boolean) => {
 
   if (displayUSD) {
     let usd = solanaValue * 112.01;
-    return usd;
+    return usd.toFixed(2);
   }
 
-  return solanaValue;
+  return solanaValue.toFixed(2);
 };
 
 export default convertLamports;
