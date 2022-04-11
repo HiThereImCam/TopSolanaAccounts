@@ -3,7 +3,7 @@ import "./App.css";
 
 import { getSolanaAccounts, AccountInfo } from "./util/getSolanaAccounts";
 import { getConvertToUSD } from "./util/getConvertToUSD";
-import DisplayAccounts from "./components/display_accounts";
+import DisplayAccounts from "./components/DisplayAccounts/display_accounts";
 
 type reducerState = {
   loading: boolean;
@@ -58,16 +58,3 @@ function App() {
 }
 
 export default App;
-
-/**
-
- {!!largestSolanaAccounts && accountData.length > 0 ? (
-        <div>
-          <pre>{JSON.stringify(accountData, null, 2)}</pre>
-        </div>
-      ) : null}
-
-
-
-
- */

@@ -1,6 +1,7 @@
-import useToggle from "../hooks/useToggle";
-import { AccountInfo } from "../util/getSolanaAccounts";
-import convertLamports from "../util/convertLamports";
+import useToggle from "../../hooks/useToggle";
+import { AccountInfo } from "../../util/getSolanaAccounts";
+import convertLamports from "../../util/convertLamports";
+import "./display_accounts.css";
 
 const DisplayAccounts = (props: {
   solanaAccounts: AccountInfo[];
@@ -10,8 +11,8 @@ const DisplayAccounts = (props: {
   const [displayUSD, toggleDisplayUSD] = useToggle();
 
   return (
-    <div>
-      <table>
+    <div className="table-container">
+      <table className="table">
         <tbody>
           <tr>
             <th>Public Address Information</th>
